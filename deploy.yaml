@@ -1,0 +1,55 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: jira
+  namespace: default
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: jira
+        env: test
+    spec:
+      containers:
+      - name: jira
+        image: registry.dev.com:5000/icoastline/jira:IMAGE_VERSION
+        ports:
+        - name: default
+          containerPort: 8080
+        
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: jira
+    env: test
+  name: jira
+  namespace: default
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 8080
+    name: default 
+  type: NodePort
+  selector:
+    app: jira
+    env: test
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jira
+  namespace: default
+spec:
+  rules:
+  - host: jira.icoastline.cn
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: jira
+          servicePort: 8080
+     
