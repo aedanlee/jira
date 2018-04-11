@@ -14,10 +14,22 @@ spec:
       containers:
       - name: jira
         image: registry.dev.com:5000/icoastline/jira:IMAGE_VERSION
+        volumeMounts:
+          - mountPath: /var/atlassian/jira
+            name: jira_home
+          - mountPath: /opt/atlassian/jira/logs
+            name: jira_log 
         ports:
         - name: default
           containerPort: 8080
-        
+      volumes:
+        - name: jira_home
+          hostPath :
+            path : /home/data/dev/jira
+        - name: jira_log
+          hostPath: 
+            path : /home/data/dev/jira/jira-logs    
+
 ---
 kind: Service
 apiVersion: v1
