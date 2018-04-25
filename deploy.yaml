@@ -19,7 +19,7 @@ spec:
             name: jira-home
           - mountPath: /opt/atlassian/jira/logs
             name: jira-log
-          - mountPath: /opt/atlassian/jira/
+          - mountPath: /opt/atlassian/jira/atlassian-jira/WEB-INF/classes/templates/jira/issue/field
             name: jira-install  
         ports:
         - name: default
