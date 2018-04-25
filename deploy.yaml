@@ -18,7 +18,9 @@ spec:
           - mountPath: /var/atlassian/jira
             name: jira-home
           - mountPath: /opt/atlassian/jira/logs
-            name: jira-log 
+            name: jira-log
+          - mountPath: /opt/atlassian/jira/
+            name: jira-install  
         ports:
         - name: default
           containerPort: 8080
@@ -28,7 +30,10 @@ spec:
             path : /home/data/dev/jira
         - name: jira-log
           hostPath: 
-            path : /home/data/dev/jira/jira-logs    
+            path : /home/data/dev/jira/jira-logs
+        - name: jira-install
+          hostPath: 
+            path : /home/data/dev/jira/jira-install    
 
 ---
 kind: Service
