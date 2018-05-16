@@ -21,8 +21,8 @@ spec:
             name: jira-log
           - mountPath: /opt/atlassian/jira/atlassian-jira/WEB-INF/classes/templates/jira/issue/field
             name: jira-install
-          - mountPath: /opt/atlassian/jira/bin
-            name: jira-install-bin
+          - mountPath: /opt/atlassian/jira/bin/setenv.sh
+            name: jira-install-bin-setenv
         ports:
         - name: default
           containerPort: 8080
@@ -36,9 +36,9 @@ spec:
         - name: jira-install
           hostPath: 
             path : /home/data/dev/jira/jira-install
-        - name: jira-install-bin
+        - name: jira-install-bin-setenv
           hostPath:
-            path : /home/data/dev/jira/jira-install-bin
+            path : /home/data/dev/jira/jira-install-bin/setenv.sh
 
 ---
 kind: Service
