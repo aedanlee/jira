@@ -46,7 +46,7 @@ metadata:
 spec:
   ports:
   - name: http
-    nodePort: 4001
+    nodePort: 30348
     port: 8080
     protocol: TCP
     targetPort: 8080
