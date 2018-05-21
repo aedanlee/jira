@@ -52,8 +52,7 @@ spec:
     name: default
   type: NodePort
   selector:
-    app: jira
-    env: test
+    qcloud-app: jira
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
