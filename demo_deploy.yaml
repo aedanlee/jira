@@ -1,0 +1,71 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: jira
+  namespace: default
+  labels:
+      qcloud-app: jira
+spec:
+  replicas: 1
+  selector:
+      matchLabels:
+        qcloud-app: jira
+  template:
+    metadata:
+      labels:
+        qcloud-app: jira
+    spec:
+      containers:
+      - name: jira
+        image: ccr.ccs.tencentyun.com/icoastline/jira:IMAGE_VERSION
+        volumeMounts:
+          - mountPath: /var/atlassian/jira
+            name: jira-home
+          - mountPath: /opt/atlassian/jira
+            name: jira-install
+        ports:
+        - name: default
+          containerPort: 8080
+      volumes:
+        - name: jira-home
+          hostPath :
+            path : /home/jira
+        - name: jira-install
+          hostPath:
+            path : /home/jira-install
+
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: jira
+    env: test
+  name: jira
+  namespace: default
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 8080
+    name: default
+  type: NodePort
+  selector:
+    app: jira
+    env: test
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jira
+  namespace: default
+spec:
+  rules:
+  - host: jira.icoastline.cc
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: jira
+          servicePort: 8080
